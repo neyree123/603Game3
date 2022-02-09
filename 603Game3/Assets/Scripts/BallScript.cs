@@ -4,10 +4,10 @@ using UnityEngine;
 
 public enum BallColor
 {
-    Pink,
-    Purple,
-    Green,
-    Blue
+    Pink = 0,
+    Purple = 1,
+    Green = 2,
+    Blue = 3
 }
 
 public class BallScript : MonoBehaviour
