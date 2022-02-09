@@ -39,6 +39,7 @@ public class follow : MonoBehaviour
             newTails--;
             addTail();
         }
+
         if (addWaiter >= 0)
         {
             addWaiter -= Time.deltaTime;
@@ -118,5 +119,7 @@ public class follow : MonoBehaviour
         newTailScript.memory = memory;
         newTailScript.next = tail;
         tail.last = newTailScript;
+
+        newTail.transform.parent = transform;
     }
 }

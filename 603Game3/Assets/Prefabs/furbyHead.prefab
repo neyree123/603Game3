@@ -68,6 +68,7 @@ MonoBehaviour:
   next: {fileID: 0}
   last: {fileID: 0}
   newTails: 0
+  removeTails: 0
 --- !u!114 &4028455445455052038
 MonoBehaviour:
   m_ObjectHideFlags: 0
