@@ -257,21 +257,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4028455445455052041, guid: 1878384feb1ef144396a679261a2d4b9, type: 3}
-      propertyPath: memory
-      value: 0.21
-      objectReference: {fileID: 0}
     - target: {fileID: 4028455445455052042, guid: 1878384feb1ef144396a679261a2d4b9, type: 3}
       propertyPath: m_Name
       value: furbyHead
       objectReference: {fileID: 0}
     - target: {fileID: 4028455445475639731, guid: 1878384feb1ef144396a679261a2d4b9, type: 3}
       propertyPath: m_Color.b
-      value: 0.63226557
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4028455445475639731, guid: 1878384feb1ef144396a679261a2d4b9, type: 3}
       propertyPath: m_Color.g
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4028455445475639731, guid: 1878384feb1ef144396a679261a2d4b9, type: 3}
       propertyPath: m_Color.r

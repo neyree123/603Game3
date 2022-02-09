@@ -10,7 +10,6 @@ public class follow : MonoBehaviour
     public GameObject body;
 
     public float targetTime;
-    public float memory;
 
     public follow next;
     public follow last;
@@ -18,13 +17,39 @@ public class follow : MonoBehaviour
     public int newTails;
     public int removeTails;
 
+    public int newColor;
+    public int color;
+
     private float addWaiter;
+    private Color[] colors;
+    private Color[] darkColors;
+
+
+    public enum Colors
+    {
+        Pink = 0,
+        Blue = 1,
+        Purple = 2,
+        Green = 3
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         trail = new List<Vector4>();
         addWaiter = -1;
+
+        colors = new Color[4];
+        colors[0] = new Color(1, 0, 244.0f / 255);
+        colors[1] = new Color(0, 195.0f / 255, 1);
+        colors[2] = new Color(132.0f / 255, 0, 1);
+        colors[3] = new Color(33.0f / 255, 1, 0);
+
+        darkColors = new Color[4];
+        for (int i = 0; i < 4; i++)
+            darkColors[i] = new Color(colors[i].r * 0.55f, colors[i].g * 0.55f, colors[i].b * 0.55f);
+
+        ChangeColor(color);
     }
 
     // Update is called once per frame
@@ -49,6 +74,25 @@ public class follow : MonoBehaviour
         {
             removeTails--;
             removeTail();
+        }
+
+        if (newColor != color)
+        {
+            ChangeColor(newColor);
+        }
+    }
+
+    public void ChangeColor(int col)
+    {
+        follow tail = this;
+        color = newColor;
+        tail.GetComponentInChildren<SpriteRenderer>().color = colors[col];
+        while (tail.last != null) 
+        { 
+            tail = tail.last;
+            tail.color = newColor;
+            tail.newColor = newColor;
+            tail.GetComponent<SpriteRenderer>().color = darkColors[col];
         }
     }
 
@@ -77,7 +121,7 @@ public class follow : MonoBehaviour
         trail.Add(data);
 
         // removes parts of the trail that exceed the memory
-        while (trail[0].w > memory)
+        while (trail[0].w > targetTime)
         {
             trail.RemoveAt(0);
         }
@@ -116,10 +160,14 @@ public class follow : MonoBehaviour
         // set up the script
         follow newTailScript = newTail.GetComponent<follow>();
         newTailScript.targetTime = targetTime;
-        newTailScript.memory = memory;
         newTailScript.next = tail;
         tail.last = newTailScript;
 
         newTail.transform.parent = transform;
+
+        // change the color 
+        newTailScript.color = newColor;
+        newTailScript.newColor = newColor;
+        newTailScript.GetComponent<SpriteRenderer>().color = darkColors[color];
     }
 }

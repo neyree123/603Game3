@@ -63,12 +63,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 4870492337161530084, guid: 38dde82bce8c60a4d923386a6281f278, type: 3}
-  targetTime: 0.2
-  memory: 0.3
+  targetTime: 0.1
+  memory: 0.11
   next: {fileID: 0}
   last: {fileID: 0}
   newTails: 0
   removeTails: 0
+  newColor: 0
+  color: 0
 --- !u!114 &4028455445455052038
 MonoBehaviour:
   m_ObjectHideFlags: 0
