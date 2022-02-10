@@ -56,7 +56,7 @@ public class FurbyPlayerScript : MonoBehaviour
         //Firing at Beginning
         if (canFire && Input.GetMouseButtonUp(0))
         {
-            Fire();
+            Fire(rb);
         }
         //Right Click For Position Reset (Mostly For Testing)
         else if (Input.GetMouseButtonDown(1))
