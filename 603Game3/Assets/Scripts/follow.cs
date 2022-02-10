@@ -47,7 +47,7 @@ public class follow : MonoBehaviour
 
         darkColors = new Color[4];
         for (int i = 0; i < 4; i++)
-            darkColors[i] = new Color(colors[i].r * 0.55f, colors[i].g * 0.55f, colors[i].b * 0.55f);
+            darkColors[i] = new Color(colors[i].r * 0.73f, colors[i].g * 0.73f, colors[i].b * 0.73f);
 
         ChangeColor(color);
     }

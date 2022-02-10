@@ -64,7 +64,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 4870492337161530084, guid: 38dde82bce8c60a4d923386a6281f278, type: 3}
   targetTime: 0.1
-  memory: 0.11
   next: {fileID: 0}
   last: {fileID: 0}
   newTails: 0
