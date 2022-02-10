@@ -18,29 +18,32 @@ public class MovingShooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D))
+        if (!ManagerActions.paused)
         {
-            float moveDist = speed * Time.deltaTime;
-            float xPos = transform.position.x + moveDist;
-            if(xPos > xMax)
+            if (Input.GetKey(KeyCode.D))
             {
-                xPos = xMax;
+                float moveDist = speed * Time.deltaTime;
+                float xPos = transform.position.x + moveDist;
+                if (xPos > xMax)
+                {
+                    xPos = xMax;
+                }
+                transform.position = new Vector2(xPos, transform.position.y);
             }
-            transform.position = new Vector2(xPos, transform.position.y);
-        }
-        else if (Input.GetKey(KeyCode.A))
-        {
-            float moveDist = speed * Time.deltaTime;
-            float xPos = transform.position.x - moveDist;
-            if (xPos < xMin)
+            else if (Input.GetKey(KeyCode.A))
             {
-                xPos = xMin;
+                float moveDist = speed * Time.deltaTime;
+                float xPos = transform.position.x - moveDist;
+                if (xPos < xMin)
+                {
+                    xPos = xMin;
+                }
+                transform.position = new Vector2(xPos, transform.position.y);
             }
-            transform.position = new Vector2(xPos, transform.position.y);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
+            }
         }
     }
 }
