@@ -8,6 +8,7 @@ public class FurbyPlayerScript : MonoBehaviour
     public Vector3 myScreenPos;
     public bool canFire = true;
     public float speed = 5;
+    public float curveSpeed = .01f;
     public bool isGhost = false;
 
     //public Projection projection;
@@ -18,9 +19,7 @@ public class FurbyPlayerScript : MonoBehaviour
 
     private Vector3 startPos;
 
-    //public bool testFurbyAsCircles;
-    //private List<Transform> furbyBodies;
-    //public float timeBetweenEachCircle = .5f;
+    
 
 
     // Start is called before the first frame update
@@ -31,16 +30,8 @@ public class FurbyPlayerScript : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         sr.color = colors[currentColorNum];
         startPos = transform.position;
-        //projection = GetComponent<Projection>();
 
-        //if (testFurbyAsCircles)
-        //{
-        //    for (int i = 0; i < transform.childCount; i++)
-        //    {
-        //        furbyBodies.Add(transform.GetChild(i));
-        //        Physics.IgnoreCollision(GetComponent<Collider>(), transform.GetChild(0).GetComponent<Collider>());
-        //    }
-        //}
+        //projection = GetComponent<Projection>();
     }
 
     // Update is called once per frame
@@ -50,8 +41,16 @@ public class FurbyPlayerScript : MonoBehaviour
         {
             return;
         }
-        
 
+        //Rotate towards direction of movement
+        Vector2 moveDir = rb.velocity;
+        if (moveDir != Vector2.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, moveDir);
+            transform.rotation = toRotation;
+        }
+        
+        //Firing at Beginning
         if (canFire && Input.GetMouseButton(0))
         {
             //projection.SimulateTrajectory(this);
@@ -64,6 +63,119 @@ public class FurbyPlayerScript : MonoBehaviour
         {
             ResetPos();
         }
+        //Debug.Log(rb.velocity);
+
+        //Curving left and right
+        //Uses rb.rotation to ensure that the velocity change is always happening in the propoer direction
+        if (!canFire && Input.GetKey(KeyCode.A))
+        {
+
+            float rot = rb.rotation;
+
+            if (rot >= -22.5 && rot < 22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 22.5 && rot < 67.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 157.5 || rot < -157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -157.5 && rot < -112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -112.5 && rot < -67.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -67.5 && rot < -22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+
+        }
+        else if (!canFire && Input.GetKey(KeyCode.D))
+        {
+
+            float rot = rb.rotation;
+
+            if (rot >= -22.5 && rot < 22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 22.5 && rot < 67.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 157.5 || rot < -157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -157.5 && rot < -112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -112.5 && rot < -67.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -67.5 && rot < -22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+        }
     }
 
     public void Fire(Rigidbody2D rigidbody)
@@ -73,7 +185,7 @@ public class FurbyPlayerScript : MonoBehaviour
         //    speed = 200;
         //}
 
-        Vector3 dir = (Input.mousePosition - myScreenPos).normalized;
+        Vector3 dir = (new Vector2(0, 10)).normalized;
         Vector2 velocity = new Vector2(dir.x, dir.y) * speed;
         rigidbody.AddForce(velocity, ForceMode2D.Impulse);
 
@@ -112,7 +224,7 @@ public class FurbyPlayerScript : MonoBehaviour
             //If bottom wall, reset
             if (collision.gameObject.name == "BottomWall")
             {
-                ResetPos();
+                //ResetPos();
             }
             //Otherwise change color
             else
@@ -131,13 +243,4 @@ public class FurbyPlayerScript : MonoBehaviour
             }
         }
     }
-
-    //public IEnumerator FireAdditionalCircles()
-    //{
-    //    foreach (Transform b in furbyBodies)
-    //    {
-    //        yield return new WaitForSeconds(timeBetweenEachCircle);
-    //        Fire(b.GetComponent<Rigidbody2D>());
-    //    }        
-    //}
 }
