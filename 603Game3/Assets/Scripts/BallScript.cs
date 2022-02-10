@@ -17,6 +17,32 @@ public class BallScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+    }
+
+    public void ChooseColor()
+    {
+        float val = Random.value; //The follow lines of code will be removed once we have a ball layout
+        if (val < .25f)
+        {
+            ballColor = BallColor.Pink;
+        }
+        else if (val < .5f)
+        {
+            ballColor = BallColor.Purple;
+        }
+        else if (val < .75f)
+        {
+            ballColor = BallColor.Green;
+        }
+        else
+        {
+            ballColor = BallColor.Blue;
+        }
+    }
+
+    public void ChangeColor()
+    {
         switch (ballColor)
         {
             case BallColor.Pink:
