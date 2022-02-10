@@ -5,13 +5,10 @@ using UnityEngine;
 public class FurbyPlayerScript : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public Vector3 myScreenPos;
     public bool canFire = true;
     public float speed = 5;
     public float curveSpeed = .01f;
-    public bool isGhost = false;
 
-    //public Projection projection;
 
     private SpriteRenderer sr;
     private int currentColorNum = 0; //0 = Pink, 1 = Purple, 2 = Green, 3 = Blue
@@ -26,21 +23,27 @@ public class FurbyPlayerScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        myScreenPos = Camera.main.WorldToScreenPoint(this.transform.position);
         sr = GetComponent<SpriteRenderer>();
-        sr.color = colors[currentColorNum];
+
         startPos = transform.position;
 
-        //projection = GetComponent<Projection>();
+        //Set Colors
+        sr.color = colors[currentColorNum];
+
+        if (currentColorNum >= 3)
+        {
+            WallColorChangeScript.instance.ChangeWallColor(colors[0]);
+        }
+        else
+        {
+            WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isGhost)
-        {
-            return;
-        }
 
         //Rotate towards direction of movement
         Vector2 moveDir = rb.velocity;
@@ -51,149 +54,121 @@ public class FurbyPlayerScript : MonoBehaviour
         }
         
         //Firing at Beginning
-        if (canFire && Input.GetMouseButton(0))
-        {
-            //projection.SimulateTrajectory(this);
-        }
-        else if (canFire && Input.GetMouseButtonUp(0))
+        if (canFire && Input.GetMouseButtonUp(0))
         {
             Fire(rb);
         }
+        //Right Click For Position Reset (Mostly For Testing)
         else if (Input.GetMouseButtonDown(1))
         {
             ResetPos();
         }
-        //Debug.Log(rb.velocity);
 
         //Curving left and right
-        //Uses rb.rotation to ensure that the velocity change is always happening in the propoer direction
+        //Uses rb.rotation to ensure that the velocity change is always happening in the proper direction
         if (!canFire && Input.GetKey(KeyCode.A))
         {
 
             float rot = rb.rotation;
+            Vector3 temp = new Vector2();
 
             if (rot >= -22.5 && rot < 22.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, 0);
             }
             else if (rot >= 22.5 && rot < 67.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
             }
             else if (rot >= 67.5 && rot < 112.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(0, -curveSpeed);
             }
             else if (rot >= 112.5 && rot < 157.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
             }
             else if (rot >= 157.5 || rot < -157.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, 0);
             }
             else if (rot >= -157.5 && rot < -112.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
             }
             else if (rot >= -112.5 && rot < -67.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(0, curveSpeed);
             }
             else if (rot >= -67.5 && rot < -22.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
             }
+
+            rb.velocity = Vector2.zero;
+            rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
 
         }
         else if (!canFire && Input.GetKey(KeyCode.D))
         {
 
             float rot = rb.rotation;
+            Vector3 temp = new Vector2();
 
             if (rot >= -22.5 && rot < 22.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, 0);
             }
             else if (rot >= 22.5 && rot < 67.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
             }
             else if (rot >= 67.5 && rot < 112.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(0, curveSpeed);
             }
             else if (rot >= 112.5 && rot < 157.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
             }
             else if (rot >= 157.5 || rot < -157.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, 0);
             }
             else if (rot >= -157.5 && rot < -112.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
             }
             else if (rot >= -112.5 && rot < -67.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(0, -curveSpeed);
             }
             else if (rot >= -67.5 && rot < -22.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+                temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);               
             }
+
+            rb.velocity = Vector2.zero;
+            rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
         }
     }
 
-    public void Fire(Rigidbody2D rigidbody)
+    /// <summary>
+    /// Launches the Furby Directly Upwards
+    /// </summary>
+    public void Fire()
     {
-        //if (isGhost)
-        //{
-        //    speed = 200;
-        //}
 
         Vector3 dir = (new Vector2(0, 10)).normalized;
         Vector2 velocity = new Vector2(dir.x, dir.y) * speed;
-        rigidbody.AddForce(velocity, ForceMode2D.Impulse);
-
-        
+        rb.AddForce(velocity, ForceMode2D.Impulse);
 
         canFire = false;
     }
 
+    /// <summary>
+    /// Changes the Furby's Color and Triggers the Walls to Change Color
+    /// </summary>
     private void ChangeColor()
     {
         //Change Furby Color
@@ -206,9 +181,24 @@ public class FurbyPlayerScript : MonoBehaviour
             currentColorNum++;
         }
 
-        sr.color = colors[currentColorNum];        
+        sr.color = colors[currentColorNum];
+
+        //Change Wall Colors
+        if (currentColorNum >= 3)
+        {
+            WallColorChangeScript.instance.ChangeWallColor(colors[0]);
+        }
+        else
+        {
+            WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
+        }
+
+        
     }
 
+    /// <summary>
+    /// Resets the Furby to the Position it Started In
+    /// </summary>
     private void ResetPos()
     {
         rb.velocity = new Vector2(0, 0);
@@ -216,22 +206,13 @@ public class FurbyPlayerScript : MonoBehaviour
         canFire = true;
     }
 
+    //Collison Fun
     public void OnCollisionEnter2D(Collision2D collision)
     {
 
         if (collision.gameObject.tag == "Wall")
         {
-            //If bottom wall, reset
-            if (collision.gameObject.name == "BottomWall")
-            {
-                //ResetPos();
-            }
-            //Otherwise change color
-            else
-            {
-                ChangeColor();
-            }
-            
+            ChangeColor();
         }
         else if (collision.gameObject.tag == "Ball")
         { 
