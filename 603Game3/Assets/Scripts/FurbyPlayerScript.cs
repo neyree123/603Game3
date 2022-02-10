@@ -70,39 +70,53 @@ public class FurbyPlayerScript : MonoBehaviour
         if (!canFire && Input.GetKey(KeyCode.A))
         {
 
-            if (rb.rotation >= 150 || rb.rotation <= -130)
+            float rot = rb.rotation;
+
+            if (rot >= -22.5 && rot < 22.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else if (rb.rotation >= 130)
-            {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
-            }
-            else if (rb.rotation >= 88)
-            {
-                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
-            }
-            else if (rb.rotation >= 60)
+            else if (rot >= 22.5 && rot < 67.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else if (rb.rotation <= -60)
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 157.5 || rot < -157.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -157.5 && rot < -112.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else
+            else if (rot >= -112.5 && rot < -67.5)
             {
-                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
+                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -67.5 && rot < -22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
@@ -111,33 +125,53 @@ public class FurbyPlayerScript : MonoBehaviour
         else if (!canFire && Input.GetKey(KeyCode.D))
         {
 
-            if (rb.rotation > 60)
+            float rot = rb.rotation;
+
+            if (rot >= -22.5 && rot < 22.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 22.5 && rot < 67.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(0, curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else if (rb.rotation <= -160 || rb.rotation > 100)
+            else if (rot >= 157.5 || rot < -157.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(-curveSpeed, 0);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else if (rb.rotation <= -88)
+            else if (rot >= -157.5 && rot < -112.5)
+            {
+                Vector3 temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
+                rb.velocity = Vector2.zero;
+                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+            }
+            else if (rot >= -112.5 && rot < -67.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(0, -curveSpeed);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
-            else if (rb.rotation <= -50)
+            else if (rot >= -67.5 && rot < -22.5)
             {
                 Vector3 temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
-                rb.velocity = Vector2.zero;
-                rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
-            }
-            else
-            {
-                Vector3 temp = rb.velocity + new Vector2(curveSpeed, 0);
                 rb.velocity = Vector2.zero;
                 rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
             }
