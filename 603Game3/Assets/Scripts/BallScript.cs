@@ -10,6 +10,7 @@ public class BallScript : MonoBehaviour
     private int i;
     private int j;
     public bool popped;
+    public LayerMask furbyMask;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class BallScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag[0] == 'P')
+        if (furbyMask == (furbyMask | (1 << collision.gameObject.layer)))
         {
             level.popBubble(i, j);
         }

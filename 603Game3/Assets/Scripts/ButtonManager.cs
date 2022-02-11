@@ -10,7 +10,7 @@ public class ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     public void StartGame()
     {
-        SceneManager.LoadScene("Julien's Scene"); //We will change the scene name later
+        SceneManager.LoadScene("Game Scene");
     }
 
     public void StartMenu()

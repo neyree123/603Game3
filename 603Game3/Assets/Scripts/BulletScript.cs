@@ -12,8 +12,8 @@ public class BulletScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void OnCollisionEnter2D(Collision2D col)
+    /*void OnCollisionEnter2D(Collision2D col)
     {
         Destroy(gameObject);
-    }
+    }*/
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4028455445455052040}
   - component: {fileID: 4028455445455052041}
   - component: {fileID: 4028455445455052038}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: furbyHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4028455445475639732}
   - component: {fileID: 4028455445475639731}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: furbyHeadSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
