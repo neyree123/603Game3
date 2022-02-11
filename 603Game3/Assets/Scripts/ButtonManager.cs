@@ -10,6 +10,7 @@ public class ButtonManager : MonoBehaviour
     // Start is called before the first frame update
     public void StartGame()
     {
+        BetweenSceneData.loaded = false;
         SceneManager.LoadScene("Game Scene");
     }
 
@@ -27,8 +28,8 @@ public class ButtonManager : MonoBehaviour
 
     public void Load()
     {
-        if (lManager == null) lManager = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        lManager.Load();
+        BetweenSceneData.loaded = true;
+        SceneManager.LoadScene("Game Scene");
     }
 
     public void Quit()

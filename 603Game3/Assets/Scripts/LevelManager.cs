@@ -20,7 +20,6 @@ public class LevelManager : MonoBehaviour
     private Color[] colors;
     private string filePath;
     private string pathEnd = "/save.dat";
-    private bool loaded;
     private follow furby;
 
     // Start is called before the first frame update
@@ -40,7 +39,10 @@ public class LevelManager : MonoBehaviour
         // set up the bubble array
         bubbleArray = new BallScript[width, height];
 
-
+        if (BetweenSceneData.loaded)
+        {
+            Load();
+        }
         // set up the bubble array
         FillArray();
 
@@ -62,7 +64,7 @@ public class LevelManager : MonoBehaviour
                 bubble.transform.parent = transform;
 
                 bubbleArray[i, j] = bubble.GetComponent<BallScript>();
-                if (!loaded)
+                if (!BetweenSceneData.loaded)
                 {
                     bubbleArray[i, j].ballColor = Random.Range(0, 4);
                 }
@@ -136,8 +138,7 @@ public class LevelManager : MonoBehaviour
                     }
                 }
             }
-            loaded = true;
-            FillArray();
+            //FillArray();
         }
     }
 
