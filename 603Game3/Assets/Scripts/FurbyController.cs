@@ -63,11 +63,11 @@ public class FurbyController : MonoBehaviour
         //healthWaves.transform.position = new Vector3(healthWaves.transform.position.x, startY - ((maxHealth - health) * (yBounds / maxHealth)));
 
         float xDir = 0f;
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             xDir -= 1f;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             xDir += 1f;
         }

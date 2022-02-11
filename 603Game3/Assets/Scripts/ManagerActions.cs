@@ -6,9 +6,12 @@ public class ManagerActions : MonoBehaviour
 {
     private LevelManager lManager;
     public static bool paused;
+    private static GameObject pauseMenu;
     // Start is called before the first frame update
     void Start()
     {
+        pauseMenu = GameObject.Find("PauseMenu");
+        pauseMenu.SetActive(false);
         lManager = GetComponent<LevelManager>();
         paused = false;
     }
@@ -33,6 +36,7 @@ public class ManagerActions : MonoBehaviour
     public static void Pause()
     {
         paused = !paused;
+        pauseMenu.SetActive(paused);
         if (paused)
         {
             Time.timeScale = 0f;
