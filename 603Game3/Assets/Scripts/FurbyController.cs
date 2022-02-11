@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FurbyController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class FurbyController : MonoBehaviour
     public float ySpeed;
     public float maxXSpeed;
     public float xLerp;
+
+    public int health = 10;
 
 
     // Start is called before the first frame update
@@ -23,6 +26,14 @@ public class FurbyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (health <= 0)
+        {
+            //Shooter Wins
+            Debug.Log("Shooter Win");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
+
+
         float xDir = 0f;
         if (Input.GetKey(KeyCode.A))
         {
@@ -45,15 +56,27 @@ public class FurbyController : MonoBehaviour
         if (collision.transform.tag == "Wall")
         {
             tail.newColor = (tail.newColor + 1) % 4;
+            WallColorChangeScript.instance.ChangeWallColor();
         }
-        if (collision.transform.tag == "Floor")
+        else if (collision.transform.tag == "Floor")
         {
             ySpeed *= -1;
             tail.newColor = (tail.newColor + 1) % 4;
+            WallColorChangeScript.instance.ChangeWallColor();
         }
-        if (collision.transform.tag == "Ball")
+        else if (collision.transform.tag == "Ball")
         {
             ySpeed *= -1;
+        }
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.transform.tag == "Top")
+        {
+            //TriggerWin
+            Debug.Log("Furby Win");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }
