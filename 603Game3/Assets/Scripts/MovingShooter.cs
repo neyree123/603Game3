@@ -40,7 +40,7 @@ public class MovingShooter : MonoBehaviour
                 }
                 transform.position = new Vector2(xPos, transform.position.y);
             }
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
             }

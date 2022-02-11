@@ -24,11 +24,11 @@ public class FurbyController : MonoBehaviour
     void Update()
     {
         float xDir = 0f;
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             xDir -= 1f;
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             xDir += 1f;
         }
