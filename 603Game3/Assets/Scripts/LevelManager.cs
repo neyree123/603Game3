@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        filePath = Application.persistentDataPath + pathEnd;
         // set up the colors
         colors = new Color[4];
 
