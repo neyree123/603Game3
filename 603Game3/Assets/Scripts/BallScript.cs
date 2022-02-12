@@ -11,6 +11,7 @@ public class BallScript : MonoBehaviour
     private int j;
     public bool popped;
     public LayerMask furbyMask;
+    public LayerMask bulletMask;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,10 @@ public class BallScript : MonoBehaviour
         if (furbyMask == (furbyMask | (1 << collision.gameObject.layer)))
         {
             level.popBubble(i, j);
+        }
+        else if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
+        {
+            Destroy(collision.gameObject);
         }
     }
 
