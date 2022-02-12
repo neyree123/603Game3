@@ -23,6 +23,11 @@ public class FurbyController : MonoBehaviour
     private float targetY = .1f;
 
     public Image healthBar;
+    public LayerMask wallMask;
+    public LayerMask topMask;
+    public LayerMask floorMask;
+    public LayerMask ballMask;
+    public LayerMask bulletMask;
 
 
     // Start is called before the first frame update
@@ -50,9 +55,8 @@ public class FurbyController : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
         }
 
+        //Handles Wave Health Bar Change
         targetY = startY - ((maxHealth - health) * (yBounds / maxHealth));
-
-        Debug.Log(targetY);
 
         if (healthWaves.transform.position.y > targetY)
         {
@@ -77,27 +81,22 @@ public class FurbyController : MonoBehaviour
         rb.velocity = new Vector2(xVel, ySpeed);
 
         transform.up = rb.velocity;
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            health--;
-        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.transform.tag == "Wall")
+        if (wallMask == (wallMask | (1 << collision.gameObject.layer)))
         {
             tail.newColor = (tail.newColor + 1) % 4;
             WallColorChangeScript.instance.ChangeWallColor();
         }
-        else if (collision.transform.tag == "Floor")
+        else if (floorMask == (floorMask | (1 << collision.gameObject.layer)))
         {
             ySpeed *= -1;
             tail.newColor = (tail.newColor + 1) % 4;
             WallColorChangeScript.instance.ChangeWallColor();
         }
-        else if (collision.transform.tag == "Ball")
+        else if (ballMask == (ballMask | (1 << collision.gameObject.layer)))
         {
             ySpeed *= -1;
         }
@@ -105,11 +104,16 @@ public class FurbyController : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.tag == "Top")
+        if (topMask == (topMask | (1 << collision.gameObject.layer)))
         {
             //TriggerWin
             Debug.Log("Furby Win");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+        else if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
+        {
+            health--;
+            Destroy(collision.gameObject);
         }
     }
 }
