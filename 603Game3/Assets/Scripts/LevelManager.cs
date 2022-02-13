@@ -147,9 +147,56 @@ public class LevelManager : MonoBehaviour
         if (!bubbleArray[i, j].popped && bubbleArray[i, j].ballColor == furby.color)
         {
             bubbleArray[i, j].Pop();
+            if(j % 2 == 1)
+            {
+                if (j > 0)
+                {
+                    popBubble(i, j - 1);
+                    if (i < width - 1)
+                    {
+                        popBubble(i + 1, j - 1);
+                    }
+                }
+                if (j < height - 1)
+                {
+                    popBubble(i, j + 1);
+                    if (i < width - 1)
+                    {
+                        popBubble(i + 1, j + 1);
+                    }
+                }
+            }
+            else
+            {
+                if (j > 0)
+                {
+                    popBubble(i, j - 1);
+                    if (i > 0)
+                    {
+                        popBubble(i - 1, j - 1);
+                    }
+                }
+                if (j < height - 1)
+                {
+                    popBubble(i, j + 1);
+                    if (i > 0)
+                    {
+                        popBubble(i - 1, j + 1);
+                    }
+                }
+            }
+            if (i > 0)
+            {
+                popBubble(i - 1, j);
+            }
+            if(i < width - 1)
+            {
+                popBubble(i + 1, j);
+            }
+            //bubbleArray[i, j].Pop();
 
             // left and right 
-            if (i > 0)
+            /*if (i > 0)
             {
                 popBubble(i - 1, j);
             }
@@ -197,7 +244,7 @@ public class LevelManager : MonoBehaviour
                     }
                     popBubble(i, j + 1);
                 }
-            }
+            }*/
         }
     }
 
