@@ -7,6 +7,7 @@ TagManager:
   - Wall
   - Ball
   - Floor
+  - Top
   layers:
   - Default
   - TransparentFX
@@ -14,12 +15,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Furby
+  - Bullet
+  - Wall
+  - Bubble
+  - EndZone
+  - Floor
   - 
   - 
   - 

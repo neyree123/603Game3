@@ -7,8 +7,8 @@ using System.Text;
 
 public class LevelManager : MonoBehaviour
 {
-    public Bubble[,] bubbleArray;
-    public int[,] colorArray;
+    public BallScript[,] bubbleArray;
+    private int[,] colorArray;
 
     public GameObject bubblePrefab;
 
@@ -20,11 +20,13 @@ public class LevelManager : MonoBehaviour
     private Color[] colors;
     private string filePath;
     private string pathEnd = "/save.dat";
-    private bool loaded;
+    private follow furby;
 
     // Start is called before the first frame update
     void Start()
     {
+        furby = GameObject.Find("furbyHead").GetComponent<follow>();
+        filePath = Application.persistentDataPath + pathEnd;
         // set up the colors
         colors = new Color[4];
 
@@ -35,9 +37,12 @@ public class LevelManager : MonoBehaviour
         
 
         // set up the bubble array
-        bubbleArray = new Bubble[width, height];
+        bubbleArray = new BallScript[width, height];
 
-
+        if (BetweenSceneData.loaded)
+        {
+            Load();
+        }
         // set up the bubble array
         FillArray();
 
@@ -48,10 +53,6 @@ public class LevelManager : MonoBehaviour
         float deltaX = 0.47f;
         float deltaY = 0.4f;
 
-        if (!loaded)
-        {
-            colorArray = new int[width, height];
-        }
 
         for (int i = 0; i < width; i++)
         {
@@ -62,13 +63,28 @@ public class LevelManager : MonoBehaviour
                 bubble.transform.position = new Vector3(deltaX * i + ((j % 2 == 0) ? 0 : deltaX / 2), -deltaY * j, 0) + ballDisplacement;
                 bubble.transform.parent = transform;
 
-                bubbleArray[i, j] = bubble.GetComponent<Bubble>();
+                bubbleArray[i, j] = bubble.GetComponent<BallScript>();
+                if (!BetweenSceneData.loaded)
+                {
+                    bubbleArray[i, j].ballColor = Random.Range(0, 4);
+                }
+                else
+                {
+                    if (colorArray[i, j] == -1)
+                    {
+                        bubbleArray[i, j].Pop();
+                    }
+                    else
+                    {
+                        bubbleArray[i, j].ballColor = colorArray[i, j];
+                    }
+                }
+                bubbleArray[i, j].ChangeColor();
+                //int colIdx = loaded ? colorArray[i, j] : Random.Range(0, 4);
+                //colorArray[i, j] = colIdx;
 
-                int colIdx = loaded ? colorArray[i, j] : Random.Range(0, 4);
-                colorArray[i, j] = colIdx;
-
-                bubble.GetComponent<SpriteRenderer>().color = colors[colIdx];
-                bubbleArray[i, j].setup(i, j, colIdx, GetComponent<LevelManager>());
+                //bubble.GetComponent<SpriteRenderer>().color = colors[colIdx];
+                bubbleArray[i, j].setup(i, j, GetComponent<LevelManager>());
 
             }
         }
@@ -81,11 +97,18 @@ public class LevelManager : MonoBehaviour
         {
             using (var writer = new BinaryWriter(stream, Encoding.Unicode, false))
             {
-                for (int i = 0; i < colorArray.GetLength(0); i++)
+                for (int i = 0; i < width; i++)
                 {
-                    for (int j = 0; j < colorArray.GetLength(1); j++)
+                    for (int j = 0; j < height; j++)
                     {
-                        writer.Write(colorArray[i, j]);
+                        if (bubbleArray[i, j].popped)
+                        {
+                            writer.Write(-1);
+                        }
+                        else
+                        {
+                            writer.Write(bubbleArray[i, j].ballColor);
+                        }
                     }
                 }
             }
@@ -115,25 +138,71 @@ public class LevelManager : MonoBehaviour
                     }
                 }
             }
-            loaded = true;
-            FillArray();
+            //FillArray();
         }
     }
 
-    public void popBubble(int i, int j, int color)
+    public void popBubble(int i, int j)
     {
-        if (!bubbleArray[i, j].popped && bubbleArray[i, j].color == color)
+        if (!bubbleArray[i, j].popped && bubbleArray[i, j].ballColor == furby.color)
         {
             bubbleArray[i, j].Pop();
-
-            // left and right 
+            if(j % 2 == 1)
+            {
+                if (j > 0)
+                {
+                    popBubble(i, j - 1);
+                    if (i < width - 1)
+                    {
+                        popBubble(i + 1, j - 1);
+                    }
+                }
+                if (j < height - 1)
+                {
+                    popBubble(i, j + 1);
+                    if (i < width - 1)
+                    {
+                        popBubble(i + 1, j + 1);
+                    }
+                }
+            }
+            else
+            {
+                if (j > 0)
+                {
+                    popBubble(i, j - 1);
+                    if (i > 0)
+                    {
+                        popBubble(i - 1, j - 1);
+                    }
+                }
+                if (j < height - 1)
+                {
+                    popBubble(i, j + 1);
+                    if (i > 0)
+                    {
+                        popBubble(i - 1, j + 1);
+                    }
+                }
+            }
             if (i > 0)
             {
-                popBubble(i - 1, j, color);
+                popBubble(i - 1, j);
+            }
+            if(i < width - 1)
+            {
+                popBubble(i + 1, j);
+            }
+            //bubbleArray[i, j].Pop();
+
+            // left and right 
+            /*if (i > 0)
+            {
+                popBubble(i - 1, j);
             }
             if (i < width - 1)
             {
-                popBubble(i + 1, j, color);
+                popBubble(i + 1, j);
             }
 
             // top and bottom
@@ -143,17 +212,17 @@ public class LevelManager : MonoBehaviour
                 {
                     if (i > 0)
                     {
-                        popBubble(i - 1, j - 1, color);
+                        popBubble(i - 1, j - 1);
                     }
-                    popBubble(i, j - 1, color);
+                    popBubble(i, j - 1);
                 }
                 if (j < height - 1)
                 {
                     if (i > 0)
                     {
-                        popBubble(i - 1, j + 1, color);
+                        popBubble(i - 1, j + 1);
                     }
-                    popBubble(i, j + 1, color);
+                    popBubble(i, j + 1);
                 }
             }
 
@@ -163,19 +232,19 @@ public class LevelManager : MonoBehaviour
                 {
                     if (i < width - 1)
                     {
-                        popBubble(i + 1, j - 1, color);
+                        popBubble(i + 1, j - 1);
                     }
-                    popBubble(i, j - 1, color);
+                    popBubble(i, j - 1);
                 }
                 if (j < height - 1)
                 {
                     if (i < width - 1)
                     {
-                        popBubble(i + 1, j + 1, color);
+                        popBubble(i + 1, j + 1);
                     }
-                    popBubble(i, j + 1, color);
+                    popBubble(i, j + 1);
                 }
-            }
+            }*/
         }
     }
 

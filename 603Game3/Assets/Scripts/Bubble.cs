@@ -33,7 +33,7 @@ public class Bubble : MonoBehaviour
     {
         if (collision.transform.tag == "Player" && collision.gameObject.GetComponent<follow>().color == color)
         {
-            level.popBubble(i, j, color);
+            level.popBubble(i, j);
         }
     }
 

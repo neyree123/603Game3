@@ -6,6 +6,8 @@ public class WallColorChangeScript : MonoBehaviour
 {
     private List<SpriteRenderer> wallsSR;
     public static WallColorChangeScript instance;
+    private Color[] colors;
+    private int colorIndex = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -17,13 +19,28 @@ public class WallColorChangeScript : MonoBehaviour
         {
             wallsSR.Add(transform.GetChild(i).GetComponent<SpriteRenderer>());
         }
+
+        colors = new Color[4];
+        colors[0] = new Color(1, 0, 244.0f / 255);
+        colors[1] = new Color(0, 195.0f / 255, 1);
+        colors[2] = new Color(132.0f / 255, 0, 1);
+        colors[3] = new Color(33.0f / 255, 1, 0);
+
+        ChangeWallColor();
     }
 
-    public void ChangeWallColor(Color color)
+    public void ChangeWallColor()
     {
+        colorIndex += 1;
+
+        if (colorIndex > 3)
+        {
+            colorIndex = 0;
+        }
+
         foreach (SpriteRenderer sr in wallsSR)
         {
-            sr.color = color;
+            sr.color = colors[colorIndex];
         }
     }
 }

@@ -5,7 +5,28 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 0
+    path: Assets/Scenes/TestLevelGen.unity
+    guid: 44f7cef5bc382924b9d75f8c6f103abb
+  - enabled: 1
+    path: Assets/Scenes/Start Scene.unity
+    guid: 087486d8b6f202c408cf76196b4040f3
+  - enabled: 1
+    path: Assets/Scenes/Game Scene.unity
+    guid: e42dd76d82f990b4e9c07c6fc9ce3fae
+  - enabled: 1
+    path: Assets/Scenes/FurbyVictoryScreen.unity
+    guid: 06107d4015cf06745a3e9a659736ca7f
+  - enabled: 1
+    path: Assets/Scenes/ShooterVictoryScreen.unity
+    guid: 36068d9049d7591448ffdf74d6f3e8c0
+  - enabled: 0
+    path: Assets/Scenes/DestinyNewScene.unity
+    guid: 1162636ccf94f7542adfd02738f74180
+  - enabled: 0
+    path: Assets/Scenes/Julien's Scene.unity
+    guid: 92ca0d301d93448438afb2f2eceba41b
   m_configObjects: {}

@@ -2,42 +2,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum BallColor
-{
-    Pink = 0,
-    Purple = 1,
-    Green = 2,
-    Blue = 3
-}
-
 public class BallScript : MonoBehaviour
 {
 
-    public BallColor ballColor;
+    public int ballColor;
+    private LevelManager level;
+    private int i;
+    private int j;
+    public bool popped;
+    public LayerMask furbyMask;
+    public LayerMask bulletMask;
     // Start is called before the first frame update
     void Start()
     {
-
+        popped = false;
     }
 
-    public void ChooseColor()
+    public void setup(int _i, int _j, LevelManager _level)
     {
-        float val = Random.value; //The follow lines of code will be removed once we have a ball layout
-        if (val < .25f)
+        i = _i;
+        j = _j;
+        level = _level;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (furbyMask == (furbyMask | (1 << collision.gameObject.layer)))
         {
-            ballColor = BallColor.Pink;
+            level.popBubble(i, j);
         }
-        else if (val < .5f)
+        else if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
         {
-            ballColor = BallColor.Purple;
-        }
-        else if (val < .75f)
-        {
-            ballColor = BallColor.Green;
-        }
-        else
-        {
-            ballColor = BallColor.Blue;
+            Destroy(collision.gameObject);
         }
     }
 
@@ -45,21 +41,28 @@ public class BallScript : MonoBehaviour
     {
         switch (ballColor)
         {
-            case BallColor.Pink:
+            case 0:
                 GetComponent<SpriteRenderer>().color = new Color(1.0f, .0627451f, .94117647f);
                 break;
-            case BallColor.Purple:
+            case 1:
+                GetComponent<SpriteRenderer>().color = new Color(.10588235f, .01176471f, .6392157f);
+                break;
+            case 2:
                 GetComponent<SpriteRenderer>().color = new Color(.6901961f, .14901961f, 1.0f);
                 break;
-            case BallColor.Green:
+            case 3:
                 GetComponent<SpriteRenderer>().color = new Color(.2235294f, 1.0f, .07843137f);
-                break;
-            case BallColor.Blue:
-                GetComponent<SpriteRenderer>().color = new Color(.10588235f, .01176471f, .6392157f);
                 break;
             default:
                 break;
         }
+    }
+
+    public void Pop()
+    {
+        GetComponent<CircleCollider2D>().enabled = false;
+        GetComponent<SpriteRenderer>().enabled = false;
+        popped = true;
     }
 
 }

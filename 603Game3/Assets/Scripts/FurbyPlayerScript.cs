@@ -30,14 +30,14 @@ public class FurbyPlayerScript : MonoBehaviour
         //Set Colors
         sr.color = colors[currentColorNum];
 
-        if (currentColorNum >= 3)
-        {
-            WallColorChangeScript.instance.ChangeWallColor(colors[0]);
-        }
-        else
-        {
-            WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
-        }
+        //if (currentColorNum >= 3)
+        //{
+        //    WallColorChangeScript.instance.ChangeWallColor(colors[0]);
+        //}
+        //else
+        //{
+        //    WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
+        //}
 
     }
 
@@ -184,14 +184,14 @@ public class FurbyPlayerScript : MonoBehaviour
         sr.color = colors[currentColorNum];
 
         //Change Wall Colors
-        if (currentColorNum >= 3)
-        {
-            WallColorChangeScript.instance.ChangeWallColor(colors[0]);
-        }
-        else
-        {
-            WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
-        }
+        //if (currentColorNum >= 3)
+        //{
+        //    WallColorChangeScript.instance.ChangeWallColor(colors[0]);
+        //}
+        //else
+        //{
+        //    WallColorChangeScript.instance.ChangeWallColor(colors[currentColorNum + 1]);
+        //}
 
         
     }
