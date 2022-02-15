@@ -1662,11 +1662,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bubblePrefab: {fileID: 878671222497620815, guid: 647c74d9d12621045a4f2bc2f2d1f320, type: 3}
-  width: 12
+  width: 18
   height: 15
-  ballDisplacement: {x: -2.7, y: 4.77, z: 0}
-  deltaX: 0.47
-  deltaY: 0.4
+  ballDisplacement: {x: -4.5, y: 4.6, z: 0}
+  deltaX: 0.5
+  deltaY: 0.5
 --- !u!4 &1638632099
 Transform:
   m_ObjectHideFlags: 0
