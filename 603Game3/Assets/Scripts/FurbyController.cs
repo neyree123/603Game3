@@ -29,7 +29,6 @@ public class FurbyController : MonoBehaviour
     public LayerMask ballMask;
     public LayerMask bulletMask;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -89,12 +88,17 @@ public class FurbyController : MonoBehaviour
         {
             tail.newColor = (tail.newColor + 1) % 4;
             WallColorChangeScript.instance.ChangeWallColor();
+            //wall-hit audio 
+            //wallhit1-001
+
         }
         else if (floorMask == (floorMask | (1 << collision.gameObject.layer)))
         {
             ySpeed *= -1;
             tail.newColor = (tail.newColor + 1) % 4;
             WallColorChangeScript.instance.ChangeWallColor();
+            //wall-hit audio 
+            //wallhit1-001
         }
         else if (ballMask == (ballMask | (1 << collision.gameObject.layer)))
         {
@@ -114,6 +118,8 @@ public class FurbyController : MonoBehaviour
         {
             health--;
             Destroy(collision.gameObject);
+            //play bullet hit sound 
+            //Furby_Bubble_Hit1
         }
     }
 }

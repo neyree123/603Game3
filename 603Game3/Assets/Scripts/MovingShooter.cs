@@ -65,6 +65,9 @@ public class MovingShooter : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
+                //start charging sfx
+                //getkeydown - start charging
+
                 chargeTimer += Time.deltaTime;
                 Debug.Log(chargeTimer);
 
@@ -89,11 +92,15 @@ public class MovingShooter : MonoBehaviour
             {
                 GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
 
+
                 if (chargeTimer >= chargeTime)
                 {
                     b.GetComponent<BulletScript>().isCharged = true;
+                    //sfx for a charged shoot - shooter_laser.wav
+
                 }
 
+                //sfx for a non-charged shoot - shooter.wav
                 chargeBarParent.SetActive(false);
                 chargeTimer = 0;
                 attackTimer = 0;

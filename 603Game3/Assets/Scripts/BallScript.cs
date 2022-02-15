@@ -30,8 +30,14 @@ public class BallScript : MonoBehaviour
         if (furbyMask == (furbyMask | (1 << collision.gameObject.layer)))
         {
             level.popBubble(i, j);
+            //play bubble pop sound
+            //health from FurbyController maybe?
+            //if(health>7) {furby_bubble}
+            //else if(7>health>4) {furby_bubble_halfglitch2}
+            //else if(4>health>0) {furby_bubble_glitch2}
+
         }
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
