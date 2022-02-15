@@ -32,8 +32,8 @@ public class MovingShooter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //laser = transform.GetChild(1).gameObject;
-        //laser.SetActive(false);
+        laser = transform.GetChild(1).gameObject;
+        laser.SetActive(false);
 
         bulletHolder = GameObject.Find("BulletHolder").transform;
 
@@ -77,7 +77,7 @@ public class MovingShooter : MonoBehaviour
             if (Input.GetKey(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
                 chargeTimer += Time.deltaTime;
-                Debug.Log(chargeTimer);
+                //Debug.Log(chargeTimer);
 
                 if (!chargeBarParent.activeInHierarchy)
                 {
@@ -102,7 +102,6 @@ public class MovingShooter : MonoBehaviour
                 if (chargeTimer >= chargeTime)
                 {
                     //b.GetComponent<BulletScript>().isCharged = true;
-                    GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity, bulletHolder);
                     StartCoroutine(Laser());
                 }
                 else
@@ -125,11 +124,11 @@ public class MovingShooter : MonoBehaviour
 
     public IEnumerator Laser()
     {
-        //laser.SetActive(true);
+        laser.SetActive(true);
         laserFiring = true;
         laser.transform.localScale = new Vector3(laser.transform.localScale.x, .1f, laser.transform.localScale.z);
         yield return new WaitForSeconds(laserTime);
         laserFiring = false;
-        //laser.SetActive(false);
+        laser.SetActive(false);
     }
 }
