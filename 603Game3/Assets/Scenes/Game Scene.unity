@@ -2450,6 +2450,10 @@ PrefabInstance:
       propertyPath: xMin
       value: -2.75
       objectReference: {fileID: 0}
+    - target: {fileID: 694767582033832614, guid: 00a7806eb7f0d994bbff00f1fd257ccd, type: 3}
+      propertyPath: timeBetweenBullets
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 694767582033832615, guid: 00a7806eb7f0d994bbff00f1fd257ccd, type: 3}
       propertyPath: m_RootOrder
       value: 2

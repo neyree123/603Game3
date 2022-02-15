@@ -8,7 +8,11 @@ public class MovingShooter : MonoBehaviour
     [SerializeField] private float xMax; //Right bound of movement
     [SerializeField] private float speed;
     [SerializeField] private float chargeTime = 3f;
+    [SerializeField] private float timeBetweenBullets = 2f;
     private float chargeTimer = 0;
+    private float attackTimer = 0;
+
+
     public GameObject bullet;
     private Transform bulletHolder;
 
@@ -36,6 +40,8 @@ public class MovingShooter : MonoBehaviour
     {
         if (!ManagerActions.paused)
         {
+            attackTimer += Time.deltaTime;
+
             if (Input.GetKey(KeyCode.D))
             {
                 float moveDist = speed * Time.deltaTime;
@@ -57,7 +63,7 @@ public class MovingShooter : MonoBehaviour
                 transform.position = new Vector2(xPos, transform.position.y);
             }
 
-            if (Input.GetKey(KeyCode.W))
+            if (Input.GetKey(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
                 chargeTimer += Time.deltaTime;
                 Debug.Log(chargeTimer);
@@ -79,7 +85,7 @@ public class MovingShooter : MonoBehaviour
 
             }
 
-            if (Input.GetKeyUp(KeyCode.W))
+            if (Input.GetKeyUp(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
                 GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
 
@@ -90,6 +96,7 @@ public class MovingShooter : MonoBehaviour
 
                 chargeBarParent.SetActive(false);
                 chargeTimer = 0;
+                attackTimer = 0;
             }
         }
     }
