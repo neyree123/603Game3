@@ -21,10 +21,30 @@ public class LevelManager : MonoBehaviour
     private string filePath;
     private string pathEnd = "/save.dat";
     private follow furby;
+    public float deltaX;
+    public float deltaY;
 
     // Start is called before the first frame update
     void Start()
     {
+        //-1 is none, 0 is pink, 1 is blue, 2 is purple, 3 is green
+        //Size of the inner arrays is equal to height of the bubble layout
+        //Total number of inner arrays is equal to width of the bubble layout
+        colorArray = new int[,]
+        {
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
+        };
         furby = GameObject.Find("furbyHead").GetComponent<follow>();
         filePath = Application.persistentDataPath + pathEnd;
         // set up the colors
@@ -50,9 +70,6 @@ public class LevelManager : MonoBehaviour
 
     private void FillArray()
     {
-        float deltaX = 0.47f;
-        float deltaY = 0.4f;
-
 
         for (int i = 0; i < width; i++)
         {

@@ -42,16 +42,16 @@ public class BallScript : MonoBehaviour
         switch (ballColor)
         {
             case 0:
-                GetComponent<SpriteRenderer>().color = new Color(1.0f, .0627451f, .94117647f);
+                GetComponent<SpriteRenderer>().color = new Color(1, 0, 244.0f / 255);
                 break;
             case 1:
-                GetComponent<SpriteRenderer>().color = new Color(.10588235f, .01176471f, .6392157f);
+                GetComponent<SpriteRenderer>().color = new Color(0, 195.0f / 255, 1);
                 break;
             case 2:
-                GetComponent<SpriteRenderer>().color = new Color(.6901961f, .14901961f, 1.0f);
+                GetComponent<SpriteRenderer>().color = new Color(132.0f / 255, 0, 1);
                 break;
             case 3:
-                GetComponent<SpriteRenderer>().color = new Color(.2235294f, 1.0f, .07843137f);
+                GetComponent<SpriteRenderer>().color = new Color(33.0f / 255, 1, 0);
                 break;
             default:
                 break;
