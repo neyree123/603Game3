@@ -65,7 +65,7 @@ public class MovingShooter : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
-                //start charging sfx
+                //start charging sfx - charge.wav
                 //getkeydown - start charging
 
                 chargeTimer += Time.deltaTime;
