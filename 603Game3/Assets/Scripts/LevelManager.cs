@@ -81,20 +81,13 @@ public class LevelManager : MonoBehaviour
                 bubble.transform.parent = transform;
 
                 bubbleArray[i, j] = bubble.GetComponent<BallScript>();
-                if (!BetweenSceneData.loaded)
+                if (colorArray[i, j] == -1)
                 {
-                    bubbleArray[i, j].ballColor = Random.Range(0, 4);
+                    bubbleArray[i, j].Pop();
                 }
                 else
                 {
-                    if (colorArray[i, j] == -1)
-                    {
-                        bubbleArray[i, j].Pop();
-                    }
-                    else
-                    {
-                        bubbleArray[i, j].ballColor = colorArray[i, j];
-                    }
+                    bubbleArray[i, j].ballColor = colorArray[i, j];
                 }
                 bubbleArray[i, j].ChangeColor();
                 //int colIdx = loaded ? colorArray[i, j] : Random.Range(0, 4);
