@@ -102,6 +102,7 @@ public class LevelManager : MonoBehaviour
                 if (colorArray[i, j] == -1)
                 {
                     bubbleArray[i, j].Pop();
+                    bubbleArray[i, j].GetComponent<ParticleSystem>().Stop();
                 }
                 else
                 {
