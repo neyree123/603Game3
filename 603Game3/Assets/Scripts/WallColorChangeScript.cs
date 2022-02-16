@@ -38,6 +38,8 @@ public class WallColorChangeScript : MonoBehaviour
             colorIndex = 0;
         }
 
+        GetComponent<ParticleSystem>().startColor = colors[colorIndex];
+
         foreach (SpriteRenderer sr in wallsSR)
         {
             sr.color = colors[colorIndex];
