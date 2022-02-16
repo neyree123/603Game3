@@ -386,7 +386,9 @@ MonoBehaviour:
     m_Bits: 128
   laserMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
+  wallHit: {fileID: 8300000, guid: 9aba51e50e26ed446801734e0f600053, type: 3}
+  bulletHit: {fileID: 8300000, guid: 718362ddc4c2fd943babd7f4bd917885, type: 3}
 --- !u!50 &89027290
 Rigidbody2D:
   serializedVersion: 4

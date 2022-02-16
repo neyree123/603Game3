@@ -28,13 +28,17 @@ public class MovingShooter : MonoBehaviour
     private bool laserFiring;
     public float laserMaxYScale = 10;
     public float laserScaleFactor = 1f;
+    public AudioClip normalShot;
+    public AudioClip chargedShot;
+    public AudioClip chargingShot;
+    private AudioSource source;
 
     // Start is called before the first frame update
     void Start()
     {
         laser = transform.GetChild(1).gameObject;
         laser.SetActive(false);
-
+        source = GetComponent<AudioSource>();
         bulletHolder = GameObject.Find("BulletHolder").transform;
 
 
@@ -76,6 +80,11 @@ public class MovingShooter : MonoBehaviour
 
             if (Input.GetKey(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    source.clip = chargingShot;
+                    source.Play();
+                }
                 //start charging sfx - charge.wav
                 //getkeydown - start charging
 
@@ -105,7 +114,9 @@ public class MovingShooter : MonoBehaviour
 
                 if (chargeTimer >= chargeTime)
                 {
-                    b.GetComponent<BulletScript>().isCharged = true;
+                    source.clip = chargedShot;
+                    source.Play();
+                    //b.GetComponent<BulletScript>().isCharged = true;
                     //sfx for a charged shoot - shooter_laser.wav
 
                     //b.GetComponent<BulletScript>().isCharged = true;
@@ -113,10 +124,12 @@ public class MovingShooter : MonoBehaviour
                 }
                 else
                 {
+                    source.clip = normalShot;
+                    source.Play();
+                    //sfx for a non-charged shoot - shooter.wav
                     GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
                 }
 
-                //sfx for a non-charged shoot - shooter.wav
                 chargeBarParent.SetActive(false);
                 chargeTimer = 0;
                 attackTimer = 0;

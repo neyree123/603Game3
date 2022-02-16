@@ -31,10 +31,14 @@ public class FurbyController : MonoBehaviour
     public LayerMask laserMask;
 
     private bool hitByLaserRecently;
+    public AudioClip wallHit;
+    public AudioClip bulletHit;
+    private AudioSource source;
 
     // Start is called before the first frame update
     void Start()
     {
+        source = GetComponent<AudioSource>();
         tail = GetComponent<follow>();
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = new Vector2(0, ySpeed); // launch upwards
@@ -93,6 +97,8 @@ public class FurbyController : MonoBehaviour
             WallColorChangeScript.instance.ChangeWallColor();
             //wall-hit audio 
             //wallhit1-001
+            source.clip = wallHit;
+            source.Play();
 
         }
         else if (floorMask == (floorMask | (1 << collision.gameObject.layer)))
@@ -102,6 +108,8 @@ public class FurbyController : MonoBehaviour
             WallColorChangeScript.instance.ChangeWallColor();
             //wall-hit audio 
             //wallhit1-001
+            source.clip = wallHit;
+            source.Play();
         }
         else if (ballMask == (ballMask | (1 << collision.gameObject.layer)))
         {
@@ -119,6 +127,8 @@ public class FurbyController : MonoBehaviour
         //}
         if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
         {
+            source.clip = bulletHit;
+            source.Play();
             health--;
             Destroy(collision.gameObject);
             //play bullet hit sound 
