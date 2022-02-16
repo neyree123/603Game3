@@ -12,10 +12,14 @@ public class BallScript : MonoBehaviour
     public bool popped;
     public LayerMask furbyMask;
     public LayerMask bulletMask;
+
+    float poppedTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         popped = false;
+        poppedTimer = 0;
     }
 
     public void setup(int _i, int _j, LevelManager _level)
@@ -39,22 +43,44 @@ public class BallScript : MonoBehaviour
 
     public void ChangeColor()
     {
+        Color color = new Color();
+
         switch (ballColor)
         {
             case 0:
-                GetComponent<SpriteRenderer>().color = new Color(1.0f, .0627451f, .94117647f);
+                //color = new Color(1.0f, .0627451f, .94117647f);
+                color = new Color(1, 0, 244.0f / 255);
                 break;
             case 1:
-                GetComponent<SpriteRenderer>().color = new Color(.10588235f, .01176471f, .6392157f);
+                //color = new Color(.10588235f, .01176471f, .6392157f);
+                color = new Color(0, 195.0f / 255, 1);
                 break;
             case 2:
-                GetComponent<SpriteRenderer>().color = new Color(.6901961f, .14901961f, 1.0f);
+                //color = new Color(.6901961f, .14901961f, 1.0f);
+                color = new Color(132.0f / 255, 0, 1);
                 break;
             case 3:
-                GetComponent<SpriteRenderer>().color = new Color(.2235294f, 1.0f, .07843137f);
+                //color = new Color(.2235294f, 1.0f, .07843137f);
+                color = new Color(33.0f / 255, 1, 0);
                 break;
             default:
                 break;
+        }
+        GetComponent<SpriteRenderer>().color = color;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = color;
+        //GetComponentInChildren<SpriteRenderer>().enabled = false;
+        GetComponent<ParticleSystem>().startColor = color;
+
+    }
+
+    private void Update()
+    {
+        if (popped)
+        {
+            if (poppedTimer < 2)
+                poppedTimer += Time.deltaTime;
+            else
+                GetComponent<ParticleSystem>().Stop();
         }
     }
 
@@ -62,6 +88,8 @@ public class BallScript : MonoBehaviour
     {
         GetComponent<CircleCollider2D>().enabled = false;
         GetComponent<SpriteRenderer>().enabled = false;
+        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+        GetComponent<ParticleSystem>().Play();
         popped = true;
     }
 
