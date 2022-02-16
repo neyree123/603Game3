@@ -16,14 +16,25 @@ public class MovingShooter : MonoBehaviour
     public GameObject bullet;
     private Transform bulletHolder;
 
+    public GameObject laserPrefab;
+    private GameObject laser;
+    public float laserTime;
+
     public GameObject chargeBarParent;
     public GameObject chargeBar;
 
     private Vector3 barLocalScale;
 
+    private bool laserFiring;
+    public float laserMaxYScale = 10;
+    public float laserScaleFactor = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
+        laser = transform.GetChild(1).gameObject;
+        laser.SetActive(false);
+
         bulletHolder = GameObject.Find("BulletHolder").transform;
 
 
@@ -69,7 +80,7 @@ public class MovingShooter : MonoBehaviour
                 //getkeydown - start charging
 
                 chargeTimer += Time.deltaTime;
-                Debug.Log(chargeTimer);
+                //Debug.Log(chargeTimer);
 
                 if (!chargeBarParent.activeInHierarchy)
                 {
@@ -85,12 +96,11 @@ public class MovingShooter : MonoBehaviour
                     chargeBar.transform.localScale = barLocalScale;
                 }
 
-
             }
 
             if (Input.GetKeyUp(KeyCode.W) && attackTimer > timeBetweenBullets)
             {
-                GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
+                //GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
 
 
                 if (chargeTimer >= chargeTime)
@@ -98,6 +108,12 @@ public class MovingShooter : MonoBehaviour
                     b.GetComponent<BulletScript>().isCharged = true;
                     //sfx for a charged shoot - shooter_laser.wav
 
+                    //b.GetComponent<BulletScript>().isCharged = true;
+                    StartCoroutine(Laser());
+                }
+                else
+                {
+                    GameObject b = Instantiate(bullet, transform.position, Quaternion.identity, bulletHolder);
                 }
 
                 //sfx for a non-charged shoot - shooter.wav
@@ -105,6 +121,22 @@ public class MovingShooter : MonoBehaviour
                 chargeTimer = 0;
                 attackTimer = 0;
             }
+
+
+            if (laserFiring && laser.transform.localScale.y < laserMaxYScale)
+            {
+                laser.transform.localScale += new Vector3(0, laserScaleFactor, 0);
+            }
         }
+    }
+
+    public IEnumerator Laser()
+    {
+        laser.SetActive(true);
+        laserFiring = true;
+        laser.transform.localScale = new Vector3(laser.transform.localScale.x, .1f, laser.transform.localScale.z);
+        yield return new WaitForSeconds(laserTime);
+        laserFiring = false;
+        laser.SetActive(false);
     }
 }

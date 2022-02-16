@@ -28,6 +28,9 @@ public class FurbyController : MonoBehaviour
     public LayerMask floorMask;
     public LayerMask ballMask;
     public LayerMask bulletMask;
+    public LayerMask laserMask;
+
+    private bool hitByLaserRecently;
 
     // Start is called before the first frame update
     void Start()
@@ -121,5 +124,21 @@ public class FurbyController : MonoBehaviour
             //play bullet hit sound 
             //Furby_Bubble_Hit1
         }
+        else if (laserMask == (laserMask | (1 << collision.gameObject.layer)))
+        {
+            if (!hitByLaserRecently)
+            {
+                health--;
+                StartCoroutine(laserDamageCooldown());
+                collision.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public IEnumerator laserDamageCooldown()
+    {
+        hitByLaserRecently = true;
+        yield return new WaitForSeconds(1f);
+        hitByLaserRecently = false;
     }
 }

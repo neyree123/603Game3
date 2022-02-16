@@ -49,7 +49,10 @@ public class follow : MonoBehaviour
         for (int i = 0; i < 4; i++)
             darkColors[i] = new Color(colors[i].r * 0.73f, colors[i].g * 0.73f, colors[i].b * 0.73f);
 
-        ChangeColor(color);
+        if (name == "furbyHead")
+            ChangeColor(color);
+        else
+            setColor(color);
     }
 
     // Update is called once per frame
@@ -86,14 +89,21 @@ public class follow : MonoBehaviour
     {
         follow tail = this;
         color = newColor;
-        tail.GetComponentInChildren<SpriteRenderer>().color = colors[col];
+        tail.GetComponentInChildren<SpriteRenderer>().color = colors[col]; 
+        transform.GetChild(1).GetComponent<SpriteRenderer>().color = darkColors[col];
         while (tail.last != null) 
         { 
             tail = tail.last;
-            tail.color = newColor;
-            tail.newColor = newColor;
-            tail.GetComponent<SpriteRenderer>().color = darkColors[col];
+            tail.setColor(newColor);
         }
+    }
+
+    public void setColor(int col)
+    {
+        color = col;
+        newColor = col;
+        GetComponent<SpriteRenderer>().color = darkColors[col];
+        transform.GetChild(0).GetComponent<SpriteRenderer>().color = darkColors[col];
     }
 
     public void moveForward()
@@ -163,11 +173,11 @@ public class follow : MonoBehaviour
         newTailScript.next = tail;
         tail.last = newTailScript;
 
-        newTail.transform.parent = transform;
+        //newTail.transform.parent = transform;
 
         // change the color 
-        newTailScript.color = newColor;
-        newTailScript.newColor = newColor;
-        newTailScript.GetComponent<SpriteRenderer>().color = darkColors[color];
+        newTailScript.color = color;
+        newTailScript.newColor = color;
+
     }
 }
