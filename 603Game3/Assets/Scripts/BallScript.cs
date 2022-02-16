@@ -9,7 +9,7 @@ public class BallScript : MonoBehaviour
     private LevelManager level;
     private int i;
     private int j;
-    public bool popped;
+    public bool popped = true;
     public LayerMask furbyMask;
     public LayerMask bulletMask;
 
@@ -18,7 +18,6 @@ public class BallScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        popped = false;
         poppedTimer = 0;
     }
 
@@ -85,7 +84,7 @@ public class BallScript : MonoBehaviour
     {
         if (popped)
         {
-            if (poppedTimer < 2)
+            if (poppedTimer < 1)
                 poppedTimer += Time.deltaTime;
             else
                 GetComponent<ParticleSystem>().Stop();
@@ -94,11 +93,14 @@ public class BallScript : MonoBehaviour
 
     public void Pop()
     {
-        GetComponent<CircleCollider2D>().enabled = false;
-        GetComponent<SpriteRenderer>().enabled = false;
-        transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
-        GetComponent<ParticleSystem>().Play();
-        popped = true;
+        if (!popped)
+        {
+            GetComponent<CircleCollider2D>().enabled = false;
+            GetComponent<SpriteRenderer>().enabled = false;
+            transform.GetChild(0).GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<ParticleSystem>().Play();
+            popped = true;
+        }
     }
 
 }
