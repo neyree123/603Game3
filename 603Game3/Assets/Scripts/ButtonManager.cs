@@ -11,7 +11,8 @@ public class ButtonManager : MonoBehaviour
     public void StartGame()
     {
         BetweenSceneData.loaded = false;
-        SceneManager.LoadScene("Game Scene");
+        //SceneManager.LoadScene("Game Scene");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public void StartMenu()

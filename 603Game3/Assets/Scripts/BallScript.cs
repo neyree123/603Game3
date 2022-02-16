@@ -35,9 +35,17 @@ public class BallScript : MonoBehaviour
         {
             level.popBubble(i, j);
         }
-        else if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
+        
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (bulletMask == (bulletMask | (1 << collision.gameObject.layer)))
         {
-            Destroy(collision.gameObject);
+            if (!collision.GetComponent<BulletScript>().isCharged)
+            {
+                Destroy(collision.gameObject);
+            }           
         }
     }
 

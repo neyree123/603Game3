@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -21,10 +22,47 @@ public class LevelManager : MonoBehaviour
     private string filePath;
     private string pathEnd = "/save.dat";
     private follow furby;
+    public float deltaX;
+    public float deltaY;
 
     // Start is called before the first frame update
     void Start()
     {
+        //-1 is none, 0 is pink, 1 is blue, 2 is purple, 3 is green
+        //Size of the inner arrays is equal to height of the bubble layout
+        //Total number of inner arrays is equal to width of the bubble layout
+        colorArray = new int[,]
+        {
+            //1-3
+            {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {2, 0, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {3, 2, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+
+            //4-6
+            {-1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 2, 3, 1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 1, 2, 0, -1, -1, -1, -1, -1, -1},
+
+            //7-9
+            {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {1, 2, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {3, 2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+
+            //10-12
+            {-1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 2, 1, 3, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, -1, -1, -1, -1},
+
+            //13-15
+            {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {1, 2, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+            {3, 2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+
+            //16-18
+            {-1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 2, 1, 3, -1, -1, -1, -1, -1, -1},
+            {-1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, -1, -1, -1, -1},
+        };
         furby = GameObject.Find("furbyHead").GetComponent<follow>();
         filePath = Application.persistentDataPath + pathEnd;
         // set up the colors
@@ -50,9 +88,6 @@ public class LevelManager : MonoBehaviour
 
     private void FillArray()
     {
-        float deltaX = 0.47f;
-        float deltaY = 0.4f;
-
 
         for (int i = 0; i < width; i++)
         {
@@ -64,20 +99,13 @@ public class LevelManager : MonoBehaviour
                 bubble.transform.parent = transform;
 
                 bubbleArray[i, j] = bubble.GetComponent<BallScript>();
-                if (!BetweenSceneData.loaded)
+                if (colorArray[i, j] == -1)
                 {
-                    bubbleArray[i, j].ballColor = Random.Range(0, 4);
+                    bubbleArray[i, j].Pop();
                 }
                 else
                 {
-                    if (colorArray[i, j] == -1)
-                    {
-                        bubbleArray[i, j].Pop();
-                    }
-                    else
-                    {
-                        bubbleArray[i, j].ballColor = colorArray[i, j];
-                    }
+                    bubbleArray[i, j].ballColor = colorArray[i, j];
                 }
                 bubbleArray[i, j].ChangeColor();
                 //int colIdx = loaded ? colorArray[i, j] : Random.Range(0, 4);
@@ -252,7 +280,12 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (transform.childCount <= 0)
+        {
+            //TriggerWin
+            Debug.Log("Furby Win");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }
 
