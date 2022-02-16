@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     private follow furby;
     public float deltaX;
     public float deltaY;
+    private FurbyController furbyHead;
 
     // Start is called before the first frame update
     void Start()
@@ -63,7 +64,9 @@ public class LevelManager : MonoBehaviour
             {-1, -1, -1, -1, -1, -1, 2, 1, 3, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, -1, -1, -1, -1},
         };
-        furby = GameObject.Find("furbyHead").GetComponent<follow>();
+        GameObject head = GameObject.Find("furbyHead");
+        furby = head.GetComponent<follow>();
+        furbyHead = head.GetComponent<FurbyController>();
         filePath = Application.persistentDataPath + pathEnd;
         // set up the colors
         colors = new Color[4];
@@ -126,6 +129,7 @@ public class LevelManager : MonoBehaviour
         {
             using (var writer = new BinaryWriter(stream, Encoding.Unicode, false))
             {
+                writer.Write((int)furbyHead.health);
                 for (int i = 0; i < width; i++)
                 {
                     for (int j = 0; j < height; j++)
@@ -157,6 +161,7 @@ public class LevelManager : MonoBehaviour
             {
                 using (var reader = new BinaryReader(stream, Encoding.UTF8, false))
                 {
+                    furbyHead.health = reader.ReadInt32();
                     colorArray = new int[width, height];
                     for (int i = 0; i < width; i++)
                     {

@@ -36,7 +36,7 @@ public class ManagerActions : MonoBehaviour
     public static void Pause()
     {
         paused = !paused;
-        pauseMenu.SetActive(paused);
+        if(pauseMenu != null) pauseMenu.SetActive(paused);
         if (paused)
         {
             Time.timeScale = 0f;
