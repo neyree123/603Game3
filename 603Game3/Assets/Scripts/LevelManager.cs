@@ -26,6 +26,8 @@ public class LevelManager : MonoBehaviour
     public float deltaY;
     private FurbyController furbyHead;
 
+    private Color[] empty;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,32 +40,33 @@ public class LevelManager : MonoBehaviour
             {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {2, 0, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {3, 2, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-
+        
             //4-6
             {-1, -1, -1, -1, -1, -1, -1, 3, -1, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 2, 3, 1, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 1, 2, 0, -1, -1, -1, -1, -1, -1},
-
+        
             //7-9
             {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {1, 2, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {3, 2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-
+        
             //10-12
             {-1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 2, 1, 3, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, -1, -1, -1, -1},
-
+        
             //13-15
             {-1, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {1, 2, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
             {3, 2, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-
+        
             //16-18
             {-1, -1, -1, -1, -1, -1, -1, 0, -1, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 2, 1, 3, -1, -1, -1, -1, -1, -1},
             {-1, -1, -1, -1, -1, -1, 0, 1, 2, -1, -1, -1, -1, -1, -1},
         };
+
         GameObject head = GameObject.Find("furbyHead");
         furby = head.GetComponent<follow>();
         furbyHead = head.GetComponent<FurbyController>();
@@ -84,6 +87,7 @@ public class LevelManager : MonoBehaviour
         {
             Load();
         }
+
         // set up the bubble array
         FillArray();
 
@@ -279,7 +283,33 @@ public class LevelManager : MonoBehaviour
                     popBubble(i, j + 1);
                 }
             }*/
+
+            CheckForWin();
         }
+    }
+
+    public void CheckForWin()
+    {
+        //bool win = true;
+
+        for (int i = 0; i < bubbleArray.GetLength(0); i++)
+        {
+            for (int j = 0; j < bubbleArray.GetLength(1); j++)
+            {
+                if (!bubbleArray[i,j].popped)
+                {
+                    //win = false;
+                    return;
+                }
+            }
+        }
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        //if (win)
+        //{
+        //
+        //}
     }
 
 
@@ -292,6 +322,9 @@ public class LevelManager : MonoBehaviour
             Debug.Log("Furby Win");
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+
+        //CheckForWin();
+
     }
 }
 
