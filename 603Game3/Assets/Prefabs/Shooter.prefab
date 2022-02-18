@@ -296,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xMin: -4.75
   xMax: 4.75
-  speed: 5
+  speed: 2
   chargeTime: 3
   timeBetweenBullets: 1.5
   bullet: {fileID: 6903347579063294649, guid: 7aacdc82f3247134e805b5fbb0539ab2, type: 3}
