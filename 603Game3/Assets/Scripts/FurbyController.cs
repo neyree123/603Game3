@@ -35,13 +35,16 @@ public class FurbyController : MonoBehaviour
     public AudioClip bulletHit;
     private AudioSource source;
 
+    public float speed = 5;
+    public float curveSpeed = .01f;
+
     // Start is called before the first frame update
     void Start()
     {
         source = GetComponent<AudioSource>();
         tail = GetComponent<follow>();
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0, ySpeed); // launch upwards
+        //rb.velocity = new Vector2(0, ySpeed); // launch upwards
 
         health = maxHealth;
 
@@ -49,6 +52,12 @@ public class FurbyController : MonoBehaviour
         targetY = startY;
         //healthBar.fillMethod = Image.FillMethod.Horizontal;
         //healthBar.fillOrigin = (int)Image.OriginHorizontal.Left;
+
+        Vector3 dir = (new Vector2(0, 10)).normalized;
+        Vector2 velocity = new Vector2(dir.x, dir.y) * speed;
+        rb.AddForce(velocity, ForceMode2D.Impulse);
+
+        //rb.AddForce(new Vector2(0, speed), ForceMode2D.Impulse);
     }
 
     // Update is called once per frame
@@ -72,21 +81,115 @@ public class FurbyController : MonoBehaviour
 
         //healthWaves.transform.position = new Vector3(healthWaves.transform.position.x, startY - ((maxHealth - health) * (yBounds / maxHealth)));
 
-        float xDir = 0f;
+        //float xDir = 0f;
+        //if (Input.GetKey(KeyCode.LeftArrow))
+        //{
+        //    xDir -= 1f;
+        //}
+        //if (Input.GetKey(KeyCode.RightArrow))
+        //{
+        //    xDir += 1f;
+        //}
+
+        //Rotate towards direction of movement
+        Vector2 moveDir = rb.velocity;
+        if (moveDir != Vector2.zero)
+        {
+            Quaternion toRotation = Quaternion.LookRotation(Vector3.forward, moveDir);
+            transform.rotation = toRotation;
+        }
+
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            xDir -= 1f;
+
+            float rot = rb.rotation;
+            Vector3 temp = new Vector2();
+
+            if (rot >= -22.5 && rot < 22.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, 0);
+            }
+            else if (rot >= 22.5 && rot < 67.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
+            }
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                temp = rb.velocity + new Vector2(0, -curveSpeed);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
+            }
+            else if (rot >= 157.5 || rot < -157.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, 0);
+            }
+            else if (rot >= -157.5 && rot < -112.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
+            }
+            else if (rot >= -112.5 && rot < -67.5)
+            {
+                temp = rb.velocity + new Vector2(0, curveSpeed);
+            }
+            else if (rot >= -67.5 && rot < -22.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
+            }
+
+            rb.velocity = Vector2.zero;
+            rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
+
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
-            xDir += 1f;
+
+            float rot = rb.rotation;
+            Vector3 temp = new Vector2();
+
+            if (rot >= -22.5 && rot < 22.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, 0);
+            }
+            else if (rot >= 22.5 && rot < 67.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, curveSpeed);
+            }
+            else if (rot >= 67.5 && rot < 112.5)
+            {
+                temp = rb.velocity + new Vector2(0, curveSpeed);
+            }
+            else if (rot >= 112.5 && rot < 157.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, curveSpeed);
+            }
+            else if (rot >= 157.5 || rot < -157.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, 0);
+            }
+            else if (rot >= -157.5 && rot < -112.5)
+            {
+                temp = rb.velocity + new Vector2(-curveSpeed, -curveSpeed);
+            }
+            else if (rot >= -112.5 && rot < -67.5)
+            {
+                temp = rb.velocity + new Vector2(0, -curveSpeed);
+            }
+            else if (rot >= -67.5 && rot < -22.5)
+            {
+                temp = rb.velocity + new Vector2(curveSpeed, -curveSpeed);
+            }
+
+            rb.velocity = Vector2.zero;
+            rb.AddForce(temp.normalized * speed, ForceMode2D.Impulse);
         }
 
-        float xVel = rb.velocity.x;
-        xVel = Mathf.Lerp(xVel, xDir * maxXSpeed, xLerp * Time.deltaTime);
-        rb.velocity = new Vector2(xVel, ySpeed);
-
-        transform.up = rb.velocity;
+        //float xVel = rb.velocity.x;
+        //xVel = Mathf.Lerp(xVel, xDir * maxXSpeed, xLerp * Time.deltaTime);
+        //rb.velocity = new Vector2(xVel, ySpeed);
+        //
+        //transform.up = rb.velocity;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -103,7 +206,7 @@ public class FurbyController : MonoBehaviour
         }
         else if (floorMask == (floorMask | (1 << collision.gameObject.layer)))
         {
-            ySpeed *= -1;
+            //ySpeed *= -1;
             tail.newColor = (tail.newColor + 1) % 4;
             WallColorChangeScript.instance.ChangeWallColor();
             //wall-hit audio 
@@ -113,7 +216,7 @@ public class FurbyController : MonoBehaviour
         }
         else if (ballMask == (ballMask | (1 << collision.gameObject.layer)))
         {
-            ySpeed *= -1;
+            //ySpeed *= -1;
         }
     }
 

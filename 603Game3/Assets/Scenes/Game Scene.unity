@@ -393,6 +393,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 96a80026b8686fe4cb44dd56e1214b61, type: 3}
   - {fileID: 8300000, guid: 3a38ec4eb7e412741bc6808d5df6debe, type: 3}
   bulletHit: {fileID: 8300000, guid: 718362ddc4c2fd943babd7f4bd917885, type: 3}
+  speed: 2
+  curveSpeed: 0.075
 --- !u!50 &89027290
 Rigidbody2D:
   serializedVersion: 4
