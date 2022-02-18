@@ -231,6 +231,7 @@ public class LevelManager : MonoBehaviour
             {
                 popBubble(i + 1, j);
             }
+            CheckForWin();
             return true;
             //bubbleArray[i, j].Pop();
 
@@ -284,8 +285,6 @@ public class LevelManager : MonoBehaviour
                     popBubble(i, j + 1);
                 }
             }*/
-
-            CheckForWin();
         }
         return false;
     }
