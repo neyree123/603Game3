@@ -17,6 +17,9 @@ public class BallScript : MonoBehaviour
     public AudioClip highHealthHit;
     public AudioClip mediumHealthHit;
     public AudioClip lowHealthHit;
+    public AudioClip highHealthBounce;
+    public AudioClip mediumHealthBounce;
+    public AudioClip lowHealthBounce;
     private AudioSource source;
 
     // Start is called before the first frame update
@@ -37,19 +40,22 @@ public class BallScript : MonoBehaviour
     {
         if (furbyMask == (furbyMask | (1 << collision.gameObject.layer)))
         {
-            level.popBubble(i, j);
+            bool eaten = level.popBubble(i, j);
             float hp = collision.gameObject.GetComponent<FurbyController>().health;
             if(hp < 4.0f)
             {
-                source.clip = lowHealthHit;
+                if(eaten) source.clip = lowHealthHit;
+                else source.clip = lowHealthBounce;
             }
             else if(hp < 7.0f)
             {
-                source.clip = mediumHealthHit;
+                if (eaten) source.clip = mediumHealthHit;
+                else source.clip = mediumHealthBounce;
             }
             else
             {
-                source.clip = highHealthHit;
+                if (eaten) source.clip = highHealthHit;
+                else source.clip = highHealthBounce;
             }
             source.Play();
             //play bubble pop sound

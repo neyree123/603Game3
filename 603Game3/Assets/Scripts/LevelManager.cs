@@ -180,7 +180,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void popBubble(int i, int j)
+    public bool popBubble(int i, int j, bool checkEaten = false)
     {
         if (!bubbleArray[i, j].popped && bubbleArray[i, j].ballColor == furby.color)
         {
@@ -231,6 +231,7 @@ public class LevelManager : MonoBehaviour
             {
                 popBubble(i + 1, j);
             }
+            return true;
             //bubbleArray[i, j].Pop();
 
             // left and right 
@@ -286,6 +287,7 @@ public class LevelManager : MonoBehaviour
 
             CheckForWin();
         }
+        return false;
     }
 
     public void CheckForWin()
