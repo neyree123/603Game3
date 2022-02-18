@@ -297,11 +297,11 @@ MonoBehaviour:
   xMin: -4.75
   xMax: 4.75
   speed: 5
-  chargeTime: 1.5
-  timeBetweenBullets: 0.75
+  chargeTime: 3
+  timeBetweenBullets: 1.5
   bullet: {fileID: 6903347579063294649, guid: 7aacdc82f3247134e805b5fbb0539ab2, type: 3}
   laserPrefab: {fileID: 6479166755958203529, guid: 48698ecbf9da96641814cdfa555f902b, type: 3}
-  laserTime: 1
+  laserTime: 0.2
   chargeBarParent: {fileID: 0}
   chargeBar: {fileID: 0}
   laserMaxYScale: 10
