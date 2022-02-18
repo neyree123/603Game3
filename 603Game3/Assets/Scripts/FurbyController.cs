@@ -31,7 +31,7 @@ public class FurbyController : MonoBehaviour
     public LayerMask laserMask;
 
     private bool hitByLaserRecently;
-    public AudioClip wallHit;
+    public AudioClip[] wallHits;
     public AudioClip bulletHit;
     private AudioSource source;
 
@@ -97,7 +97,7 @@ public class FurbyController : MonoBehaviour
             WallColorChangeScript.instance.ChangeWallColor();
             //wall-hit audio 
             //wallhit1-001
-            source.clip = wallHit;
+            source.clip = wallHits[Random.Range(0, wallHits.Length)];
             source.Play();
 
         }
@@ -108,7 +108,7 @@ public class FurbyController : MonoBehaviour
             WallColorChangeScript.instance.ChangeWallColor();
             //wall-hit audio 
             //wallhit1-001
-            source.clip = wallHit;
+            source.clip = wallHits[Random.Range(0, wallHits.Length)];
             source.Play();
         }
         else if (ballMask == (ballMask | (1 << collision.gameObject.layer)))

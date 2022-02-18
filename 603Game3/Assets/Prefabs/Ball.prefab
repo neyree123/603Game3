@@ -127,6 +127,9 @@ MonoBehaviour:
   highHealthHit: {fileID: 8300000, guid: 2558cf01a9697cf478e1eb00930c340f, type: 3}
   mediumHealthHit: {fileID: 8300000, guid: c07bcb31b45139d4aae1aa56d8353e2f, type: 3}
   lowHealthHit: {fileID: 8300000, guid: 89cae196a3d953a409d33e8942b69a2b, type: 3}
+  highHealthBounce: {fileID: 8300000, guid: ab841fd90f2f923428b77c3160d91cc2, type: 3}
+  mediumHealthBounce: {fileID: 8300000, guid: 70e17a966b8e2c844b28c2414da0a87c, type: 3}
+  lowHealthBounce: {fileID: 8300000, guid: 7515398b65b88814dbdfd241c45e6b48, type: 3}
 --- !u!198 &1434935870
 ParticleSystem:
   m_ObjectHideFlags: 0
